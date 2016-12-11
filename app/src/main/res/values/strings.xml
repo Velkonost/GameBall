@@ -1,0 +1,11 @@
+<resources>
+    <string name="app_name">GameBall</string>
+
+    <string name="new_game">Начать игру</string>
+    <string name="continue_game">Продолжить игру</string>
+    <string name="exit_game">Выход</string>
+
+    <string name="title_message1">Задание</string>
+    <string name="text_massage1">Хей игрок, тебе нужно за 4 сек. набить 5 мячей! Ну что, рискнешь?</string>
+
+</resources>
