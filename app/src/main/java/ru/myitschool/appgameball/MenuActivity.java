@@ -1,14 +1,14 @@
 package ru.myitschool.appgameball;
 
 import android.app.Activity;
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+
+import static ru.myitschool.appgameball.Manager.changeActivityCompat;
 
 public class MenuActivity extends Activity {
 
@@ -39,26 +39,8 @@ public class MenuActivity extends Activity {
                                     int i, long l) {
                 switch (i){
                     case 0:
-                        AlertDialog.Builder builder = new AlertDialog.Builder(MenuActivity.this);
-                        builder.setTitle(getString(R.string.title_message1));
-                        builder.setMessage(getString(R.string.text_massage1));
-                        builder.setCancelable(false);
-
-                        builder.setNegativeButton("Нет", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                return;
-                            }
-                        });
-
-                        builder.setPositiveButton("Да", new DialogInterface.OnClickListener() {
-                            @Override
-                            public void onClick(DialogInterface dialogInterface, int i) {
-                                startActivity(new Intent(MenuActivity.this, MainActivity.class));
-                            }
-                        });
-                        AlertDialog alertDialog = builder.create();
-                        alertDialog.show();
+                        changeActivityCompat(MenuActivity.this,
+                                new Intent(MenuActivity.this, ChooseDifficultyActivity.class));
                         break;
                     case 1:
                         //

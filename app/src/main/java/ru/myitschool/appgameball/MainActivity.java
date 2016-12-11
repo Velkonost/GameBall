@@ -1,5 +1,6 @@
 package ru.myitschool.appgameball;
 
+import android.content.Intent;
 import android.media.AudioAttributes;
 import android.media.SoundPool;
 import android.os.Bundle;
@@ -13,11 +14,16 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.myitschool.appgameball.Ball.countTouch;
+import static ru.myitschool.appgameball.ChooseDifficultyActivity.DIFFICULTY;
+import static ru.myitschool.appgameball.ChooseDifficultyActivity.ON_TIME;
 
 public class MainActivity extends AppCompatActivity {
 
     private List<Ball> balls = null;
     private int countBall = 5;
+
+    private boolean on_time;
+    private int difficulty;
 
     private int timeToEnd = 20000;
     private long timeLess;
@@ -37,6 +43,13 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+
+        Intent intent = getIntent();
+        on_time = intent.getBooleanExtra(ON_TIME, true);
+        difficulty = intent.getIntExtra(DIFFICULTY, 50);
+
+        if (!on_time)
+            timeToEnd = 1000000000;
 
         textTimer = (TextView) findViewById(R.id.text_timer);
         textScore = (TextView) findViewById(R.id.text_score);
@@ -83,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 
     private void createBalls(){
         for (int i = 0; i < countBall; i++){
-            balls.add(new Ball(MainActivity.this, screenH, screenW, 200,
+            balls.add(new Ball(MainActivity.this, screenH, screenW, (100 - difficulty) * 2 + 30,
                     5, 10));
         }
     }
