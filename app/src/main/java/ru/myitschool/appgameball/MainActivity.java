@@ -62,8 +62,7 @@ public class MainActivity extends AppCompatActivity {
             //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
             public void onTick(long millisUntilFinished) {
                 timeLess = millisUntilFinished / 1000;
-                textTimer.setText("Осталось: "
-                        + timeLess);
+                textTimer.setText("Осталось: " + timeLess);
             }
 
             //Задаем действия после завершения отсчета (высвечиваем надпись "Бабах!"):
