@@ -144,9 +144,15 @@ public class MainActivity extends AppCompatActivity {
         return true;
     }
 
+    @Override
+    protected void onStop() {
+        super.onStop();
+        timer.cancel();
+    }
+
     public class MyTimer extends CountDownTimer{
 
-        public MyTimer(long millisInFuture, long countDownInterval) {
+        MyTimer(long millisInFuture, long countDownInterval) {
             super(millisInFuture, countDownInterval);
         }
 

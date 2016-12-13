@@ -6,23 +6,23 @@ import android.widget.RelativeLayout;
 
 import java.util.List;
 
-public class Ball {
+class Ball {
 
     private int x, y, speedX, speedY;
     private int screenH, screenW;
     private ImageView image;
 
     private static int size;
-    public static int countTouch = 0;
+    static int countTouch = 0;
 
-    public Ball(MainActivity mainActivity, int screenH, int screenW,
-                int size, int beginSpeed, int endSpeed){
+    Ball(MainActivity mainActivity, int screenH, int screenW,
+         int size, int beginSpeed, int endSpeed){
 
         image = new ImageView(mainActivity);
 
         this.screenH = screenH;
         this.screenW = screenW;
-        this.size = size;
+        Ball.size = size;
 
         this.x = (int) (Math.random() * screenW / 2);
         this.y = (int) (Math.random() * screenH / 2);
@@ -36,7 +36,7 @@ public class Ball {
     }
 
     //движение мяча
-    public void move(){
+    void move(){
         x += speedX;
         y += speedY;
         image.setX(x);
@@ -48,11 +48,11 @@ public class Ball {
             speedY = - speedY;
     }
 
-    public static boolean touch(List<Ball> balls, float x, float y,
-                             SoundPool soundPool, int streamSound){
+    static boolean touch(List<Ball> balls, float x, float y,
+                         SoundPool soundPool, int streamSound){
         for (int i = 0; i < balls.size(); i++){
-            if ((balls.get(i).x <= x) && (balls.get(i).x + size >= x) &&
-                    (balls.get(i).y <= y) && (balls.get(i).y + size >= y)){
+            if ((balls.get(i).x <= x) && (balls.get(i).x + size + size/2 >= x) &&
+                    (balls.get(i).y <= y) && (balls.get(i).y + size + size/2 >= y)){
                 balls.get(i).image.setImageAlpha(0);
                 soundPool.play(streamSound, 1, 1, 1, 0, 1);
                 countTouch++;
