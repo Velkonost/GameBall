@@ -51,8 +51,8 @@ class Ball {
     static boolean touch(List<Ball> balls, float x, float y,
                          SoundPool soundPool, int streamSound){
         for (int i = 0; i < balls.size(); i++){
-            if ((balls.get(i).x <= x) && (balls.get(i).x + size + size/2 >= x) &&
-                    (balls.get(i).y <= y) && (balls.get(i).y + size + size/2 >= y)){
+            if ((balls.get(i).x <= x) && (balls.get(i).x + size >= x) &&
+                    (balls.get(i).y <= y) && (balls.get(i).y + size >= y)){
                 balls.get(i).image.setImageAlpha(0);
                 soundPool.play(streamSound, 1, 1, 1, 0, 1);
                 countTouch++;

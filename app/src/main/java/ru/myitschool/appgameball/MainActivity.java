@@ -25,7 +25,6 @@ public class MainActivity extends AppCompatActivity {
     private List<Ball> balls = null;
     private int countBall = 5;
 
-    private boolean on_time;
     private int difficulty;
 
     private int timeToEnd = 20000;
@@ -48,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        on_time = intent.getBooleanExtra(ON_TIME, true);
+        boolean on_time = intent.getBooleanExtra(ON_TIME, true);
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
         if (!on_time)
