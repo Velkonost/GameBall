@@ -44,6 +44,7 @@ public class MainActivity extends AppCompatActivity {
     private int streamSoundTuck = 0;
     private int streamSoundWin = 0;
     private int streamSoundLose = 0;
+    private boolean on_time;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,7 +52,7 @@ public class MainActivity extends AppCompatActivity {
         setContentView(R.layout.activity_main);
 
         Intent intent = getIntent();
-        boolean on_time = intent.getBooleanExtra(ON_TIME, true);
+        on_time = intent.getBooleanExtra(ON_TIME, true);
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
         if (!on_time)
@@ -152,6 +153,8 @@ public class MainActivity extends AppCompatActivity {
         super.onStop();
         timer.cancel();
 
+        saveText(this, ON_TIME, String.valueOf(on_time));
+        saveText(this, DIFFICULTY, String.valueOf(difficulty));
         saveText(this, SCORE, String.valueOf(score));
         saveText(this, TIME, String.valueOf(timeLess));
         saveText(this, AMOUNT, String.valueOf(balls.size()));
