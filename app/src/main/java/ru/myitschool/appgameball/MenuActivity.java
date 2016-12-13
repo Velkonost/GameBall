@@ -48,6 +48,7 @@ public class MenuActivity extends Activity {
 
                         Intent intent = new Intent(MenuActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
+
                         intent.putExtra(ON_TIME, loadText(MenuActivity.this, ON_TIME));
                         intent.putExtra(DIFFICULTY, loadText(MenuActivity.this, DIFFICULTY));
                         intent.putExtra(SCORE, loadText(MenuActivity.this, SCORE));

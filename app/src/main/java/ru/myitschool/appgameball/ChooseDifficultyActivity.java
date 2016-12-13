@@ -35,9 +35,10 @@ public class ChooseDifficultyActivity extends AppCompatActivity {
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseDifficultyActivity.this, MainActivity.class);
                 intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
-                intent.putExtra(ON_TIME, mSwitchCompat.getShowText());
+                intent.putExtra(ON_TIME, mSwitchCompat.isChecked());
                 intent.putExtra(DIFFICULTY, mSeekBar.getProgress());
                 ChooseDifficultyActivity.this.startActivity(intent);
+                finish();
             }
         });
     }

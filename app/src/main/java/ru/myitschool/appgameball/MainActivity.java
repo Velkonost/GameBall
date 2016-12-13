@@ -10,7 +10,9 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
+import android.util.Log;
 import android.view.MotionEvent;
+import android.view.View;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -22,6 +24,7 @@ import static ru.myitschool.appgameball.Constants.DIFFICULTY;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
 import static ru.myitschool.appgameball.Constants.SCORE;
 import static ru.myitschool.appgameball.Constants.TIME;
+import static ru.myitschool.appgameball.PhoneDataStorage.loadText;
 import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 
 public class MainActivity extends AppCompatActivity {
@@ -31,9 +34,10 @@ public class MainActivity extends AppCompatActivity {
 
     private int difficulty;
 
-    private int timeToEnd = 20000;
+    private int timeToEnd;
     private long timeLess;
-    private int score = 0;
+    private int score;
+    private int amount;
 
     private int prevCountTouch;
 
@@ -53,13 +57,22 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         on_time = intent.getBooleanExtra(ON_TIME, true);
+        Log.i("TIME", String.valueOf(on_time));
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
-        if (!on_time)
-            timeToEnd = 1000000000;
+        score = intent.getIntExtra(SCORE, 0);
+        timeToEnd = intent.getIntExtra(TIME, 20000);
+        amount = intent.getIntExtra(AMOUNT, 0);
 
         textTimer = (TextView) findViewById(R.id.text_timer);
         textScore = (TextView) findViewById(R.id.text_score);
+
+
+        if (!on_time) {
+            timeToEnd = 1000000000;
+            textTimer.setVisibility(View.INVISIBLE);
+        }
+
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -68,27 +81,39 @@ public class MainActivity extends AppCompatActivity {
 
         prevCountTouch = countTouch;
         createSoundPool();
-
         balls = new ArrayList<>();
-        createBalls();
+        if (amount == 0) {
+            createBalls();
+        } else {
+            for (int i = 0; i < amount; i++) {
+                Ball ball = new Ball(MainActivity.this, screenH, screenW, (100 - difficulty) * 2 + 30,
+                        5, 10);
+                ball.setX(Integer.parseInt(loadText(this, i + "x")));
+                ball.setY(Integer.parseInt(loadText(this, i + "y")));
+
+                balls.add(ball);
+            }
+        }
 
         textScore.setText("Очки: " + 0);
 
         timer = new MyTimer(timeToEnd, 10);
         timer.start();
+        if (on_time) {
+            new CountDownTimer(timeToEnd, 100) {
 
-        new CountDownTimer(timeToEnd, 100) {
+                //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
+                public void onTick(long millisUntilFinished) {
+                    timeLess = millisUntilFinished / 1000;
+                    textTimer.setText("Осталось: " + timeLess);
+                }
 
-            //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
-            public void onTick(long millisUntilFinished) {
-                timeLess = millisUntilFinished / 1000;
-                textTimer.setText("Осталось: " + timeLess);
+                public void onFinish() {
+                    textTimer.setText("Не успел!");
+                }
             }
-            public void onFinish() {
-                textTimer.setText("Не успел!");
-            }
+                    .start();
         }
-                .start();
     }
 
     //создание звука
