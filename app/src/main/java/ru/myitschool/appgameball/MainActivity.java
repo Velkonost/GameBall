@@ -1,8 +1,11 @@
 package ru.myitschool.appgameball;
 
+import android.annotation.TargetApi;
 import android.content.Intent;
 import android.media.AudioAttributes;
+import android.media.AudioManager;
 import android.media.SoundPool;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
@@ -77,8 +80,6 @@ public class MainActivity extends AppCompatActivity {
                 timeLess = millisUntilFinished / 1000;
                 textTimer.setText("Осталось: " + timeLess);
             }
-
-            //Задаем действия после завершения отсчета (высвечиваем надпись "Бабах!"):
             public void onFinish() {
                 textTimer.setText("Не успел!");
             }
@@ -88,10 +89,32 @@ public class MainActivity extends AppCompatActivity {
 
     //создание звука
     private void createSoundPool () {
-        soundPool = new SoundPool(1, AudioAttributes.CONTENT_TYPE_MUSIC, 1);
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
+            createNewSoundPool();
+        }else{
+            createOldSoundPool();
+        }
         streamSoundTuck = soundPool.load(this, R.raw.tuck, 1);
         streamSoundWin = soundPool.load(this, R.raw.win, 2);
         streamSoundLose = soundPool.load(this, R.raw.lose, 3);
+    }
+
+    @TargetApi(Build.VERSION_CODES.LOLLIPOP)
+    protected void createNewSoundPool() {
+
+        AudioAttributes attributes = new AudioAttributes.Builder()
+                .setUsage(AudioAttributes.USAGE_GAME)
+                .setContentType(AudioAttributes.CONTENT_TYPE_SONIFICATION)
+                .build();
+
+        soundPool = new SoundPool.Builder()
+                .setAudioAttributes(attributes)
+                .build();
+    }
+
+    @SuppressWarnings("deprecation")
+    protected void createOldSoundPool(){
+        soundPool = new SoundPool(5, AudioManager.STREAM_MUSIC, 0);
     }
 
     private void createBalls(){
