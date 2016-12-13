@@ -17,8 +17,12 @@ import java.util.ArrayList;
 import java.util.List;
 
 import static ru.myitschool.appgameball.Ball.countTouch;
-import static ru.myitschool.appgameball.ChooseDifficultyActivity.DIFFICULTY;
-import static ru.myitschool.appgameball.ChooseDifficultyActivity.ON_TIME;
+import static ru.myitschool.appgameball.Constants.AMOUNT;
+import static ru.myitschool.appgameball.Constants.DIFFICULTY;
+import static ru.myitschool.appgameball.Constants.ON_TIME;
+import static ru.myitschool.appgameball.Constants.SCORE;
+import static ru.myitschool.appgameball.Constants.TIME;
+import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -147,6 +151,15 @@ public class MainActivity extends AppCompatActivity {
     protected void onStop() {
         super.onStop();
         timer.cancel();
+
+        saveText(this, SCORE, String.valueOf(score));
+        saveText(this, TIME, String.valueOf(timeLess));
+        saveText(this, AMOUNT, String.valueOf(balls.size()));
+
+        for (int i = 0; i < balls.size(); i++) {
+            saveText(this, i + "x", String.valueOf(balls.get(i).getX()));
+            saveText(this, i + "y", String.valueOf(balls.get(i).getY()));
+        }
     }
 
     public class MyTimer extends CountDownTimer{

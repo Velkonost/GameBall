@@ -9,11 +9,12 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
 
+import static ru.myitschool.appgameball.Constants.DIFFICULTY;
+import static ru.myitschool.appgameball.Constants.ON_TIME;
+
 public class ChooseDifficultyActivity extends AppCompatActivity {
 
     private final int LAYOUT = R.layout.activity_choose_difficulty;
-    public static final String ON_TIME = "on time";
-    public static final String DIFFICULTY = "difficulty";
 
     private Button mButton;
     private SwitchCompat mSwitchCompat;

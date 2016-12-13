@@ -4,6 +4,7 @@ import android.content.Context;
 import android.content.SharedPreferences;
 
 import static android.content.Context.MODE_PRIVATE;
+import static ru.myitschool.appgameball.Constants.APP_PREFERENCES;
 
 /**
  * @author Velkonost
@@ -12,8 +13,6 @@ import static android.content.Context.MODE_PRIVATE;
 public class PhoneDataStorage {
 
     private static SharedPreferences mSharedPreferences;
-
-    private static final String APP_PREFERENCES = "AppGameBallUserSettings";
 
     /** Пустой конструктор */
     public PhoneDataStorage() {
