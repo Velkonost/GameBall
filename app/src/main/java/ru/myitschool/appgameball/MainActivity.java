@@ -21,6 +21,7 @@ import java.util.List;
 import static ru.myitschool.appgameball.Ball.countTouch;
 import static ru.myitschool.appgameball.Constants.AMOUNT;
 import static ru.myitschool.appgameball.Constants.DIFFICULTY;
+import static ru.myitschool.appgameball.Constants.LOAD;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
 import static ru.myitschool.appgameball.Constants.SCORE;
 import static ru.myitschool.appgameball.Constants.TIME;
@@ -34,7 +35,7 @@ public class MainActivity extends AppCompatActivity {
 
     private int difficulty;
 
-    private int timeToEnd;
+    private long timeToEnd;
     private long timeLess;
     private int score;
     private int amount;
@@ -57,12 +58,21 @@ public class MainActivity extends AppCompatActivity {
 
         Intent intent = getIntent();
         on_time = intent.getBooleanExtra(ON_TIME, true);
-        Log.i("TIME", String.valueOf(on_time));
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
-        score = intent.getIntExtra(SCORE, 0);
-        timeToEnd = intent.getIntExtra(TIME, 20000);
-        amount = intent.getIntExtra(AMOUNT, 0);
+        if (loadText(this, LOAD).equals("yes")) {
+//            timeToEnd = Long.parseLong(loadText(this, TIME));
+            timeToEnd = 20000;
+            Log.i("CHE", String.valueOf(timeToEnd));
+            amount = Integer.parseInt(loadText(this, AMOUNT));
+            score = Integer.parseInt(loadText(MainActivity.this, SCORE));
+            difficulty = Integer.parseInt(loadText(this, DIFFICULTY));
+            saveText(this, LOAD, "");
+        } else {
+            timeToEnd = 20000;
+            amount = 0;
+            score = 0;
+        }
 
         textTimer = (TextView) findViewById(R.id.text_timer);
         textScore = (TextView) findViewById(R.id.text_score);
@@ -72,7 +82,6 @@ public class MainActivity extends AppCompatActivity {
             timeToEnd = 1000000000;
             textTimer.setVisibility(View.INVISIBLE);
         }
-
 
         DisplayMetrics displayMetrics = new DisplayMetrics();
         getWindowManager().getDefaultDisplay().getMetrics(displayMetrics);
@@ -120,7 +129,7 @@ public class MainActivity extends AppCompatActivity {
     private void createSoundPool () {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
             createNewSoundPool();
-        }else{
+        } else {
             createOldSoundPool();
         }
         streamSoundTuck = soundPool.load(this, R.raw.tuck, 1);
@@ -188,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
             saveText(this, i + "x", String.valueOf(balls.get(i).getX()));
             saveText(this, i + "y", String.valueOf(balls.get(i).getY()));
         }
+        finish();
     }
 
     public class MyTimer extends CountDownTimer{
@@ -215,7 +225,8 @@ public class MainActivity extends AppCompatActivity {
 
     public void setScore() {
         if (countTouch > prevCountTouch) {
-            score += timeLess;
+            if (on_time) score += timeLess;
+            else score += 1.5 * countTouch;
         }
         prevCountTouch = countTouch;
         textScore.setText("Очки: " + score);
@@ -226,5 +237,4 @@ public class MainActivity extends AppCompatActivity {
            ball.move();
        }
     }
-
 }

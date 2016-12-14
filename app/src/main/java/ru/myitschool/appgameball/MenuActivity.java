@@ -8,13 +8,12 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 
-import static ru.myitschool.appgameball.Constants.AMOUNT;
 import static ru.myitschool.appgameball.Constants.DIFFICULTY;
+import static ru.myitschool.appgameball.Constants.LOAD;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
-import static ru.myitschool.appgameball.Constants.SCORE;
-import static ru.myitschool.appgameball.Constants.TIME;
 import static ru.myitschool.appgameball.Manager.changeActivityCompat;
 import static ru.myitschool.appgameball.PhoneDataStorage.loadText;
+import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 
 public class MenuActivity extends Activity {
 
@@ -30,7 +29,7 @@ public class MenuActivity extends Activity {
 
         ListView listMenu = (ListView) findViewById(R.id.list_menu);
 
-        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<String>(this,
+        ArrayAdapter<String> arrayAdapter = new ArrayAdapter<>(this,
                 R.layout.menu_item,
                 contentMenu);
         listMenu.setAdapter(arrayAdapter);
@@ -39,31 +38,27 @@ public class MenuActivity extends Activity {
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view,
                                     int i, long l) {
-                switch (i){
+                switch (i) {
                     case 0:
                         changeActivityCompat(MenuActivity.this,
                                 new Intent(MenuActivity.this, ChooseDifficultyActivity.class));
                         break;
                     case 1:
-
+                        saveText(MenuActivity.this, LOAD, "yes");
                         Intent intent = new Intent(MenuActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
-                        intent.putExtra(ON_TIME, loadText(MenuActivity.this, ON_TIME));
-                        intent.putExtra(DIFFICULTY, loadText(MenuActivity.this, DIFFICULTY));
-                        intent.putExtra(SCORE, loadText(MenuActivity.this, SCORE));
-                        intent.putExtra(TIME, loadText(MenuActivity.this, TIME));
-                        intent.putExtra(AMOUNT, loadText(MenuActivity.this, AMOUNT));
+                        intent.putExtra(ON_TIME, Boolean.parseBoolean(loadText(MenuActivity.this, ON_TIME)));
+                        intent.putExtra(DIFFICULTY, Integer.parseInt(loadText(MenuActivity.this, DIFFICULTY)));
+                        changeActivityCompat(MenuActivity.this,
+                                new Intent(MenuActivity.this, MainActivity.class));
 
-                        MenuActivity.this.startActivity(intent);
                         break;
                     case 2:
                         finish();
                         break;
                 }
-
             }
         });
-
     }
 }
