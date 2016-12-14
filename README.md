@@ -12,6 +12,8 @@ Forked [here](https://github.com/Denis-Gluhov/GameBall)
 - Изменена система проигрывания звуков ([отдельно](https://github.com/Velkonost/GameBall/blob/master/app/src/main/java/ru/myitschool/appgameball/MainActivity.java#L155) для последних `sdk`)
 - Изменена [логика](https://github.com/Velkonost/GameBall/blob/master/app/src/main/java/ru/myitschool/appgameball/Ball.java#L39) `убийства` мячей (Теперь попадание тапом по мячу гарантирует его уничтожение)
 
+---
+
 Добавленные корректировки:
 
 - Режим игры `Бесконечный` (Отсутствует ограничение по времени)
