@@ -17,7 +17,7 @@ class Ball {
     private static int size;
     static int countTouch = 0;
 
-    Ball(MainActivity mainActivity, int screenH, int screenW,
+    Ball(final MainActivity mainActivity, int screenH, int screenW,
          final int size, int beginSpeed, int endSpeed){
 
         image = new ImageView(mainActivity);
@@ -51,6 +51,7 @@ class Ball {
                     MainActivity.setBalls(balls);
                     MainActivity.setCountBall(MainActivity.getCountBall() - 1);
                     live = false;
+                    mainActivity.winGame();
                 }
             }
         });

@@ -169,23 +169,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-//    @Override
-//    public boolean onTouchEvent(MotionEvent event) {
-//        float x, y;
-//        x = event.getX();
-//        y = event.getY();
-//        switch (event.getAction()){
-//            case MotionEvent.ACTION_DOWN:
-//                Log.i("CHE", String.valueOf(getCountBall()));
-//                    if (getCountBall() == 0) {
-//                        soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
-//                        finish();
-//                    }
-//                break;
-//        }
-//        return true;
-//    }
-
     @Override
     protected void onStop() {
         super.onStop();
