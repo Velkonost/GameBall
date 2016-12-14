@@ -1,6 +1,8 @@
 package ru.myitschool.appgameball;
 
 import android.media.SoundPool;
+import android.util.Log;
+import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
 
@@ -33,6 +35,13 @@ class Ball {
         mainActivity.addContentView(image,
                 new RelativeLayout.LayoutParams(size, size));
         image.setImageResource(R.drawable.ball);
+
+        image.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Log.i("CHE", "CHE");
+            }
+        });
     }
 
     //движение мяча
@@ -80,4 +89,6 @@ class Ball {
     public void setY(int y) {
         this.y = y;
     }
+
+
 }

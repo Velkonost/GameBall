@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.util.Log;
 import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
@@ -25,6 +24,7 @@ import static ru.myitschool.appgameball.Constants.LOAD;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
 import static ru.myitschool.appgameball.Constants.SCORE;
 import static ru.myitschool.appgameball.Constants.TIME;
+import static ru.myitschool.appgameball.PhoneDataStorage.deleteText;
 import static ru.myitschool.appgameball.PhoneDataStorage.loadText;
 import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 
@@ -61,13 +61,11 @@ public class MainActivity extends AppCompatActivity {
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
         if (loadText(this, LOAD).equals("yes")) {
-//            timeToEnd = Long.parseLong(loadText(this, TIME));
-            timeToEnd = 20000;
-            Log.i("CHE", String.valueOf(timeToEnd));
+            timeToEnd = Long.parseLong(loadText(this, TIME)) * 1000 + 1000;
             amount = Integer.parseInt(loadText(this, AMOUNT));
             score = Integer.parseInt(loadText(MainActivity.this, SCORE));
             difficulty = Integer.parseInt(loadText(this, DIFFICULTY));
-            saveText(this, LOAD, "");
+            deleteText(this, LOAD);
         } else {
             timeToEnd = 20000;
             amount = 0;
