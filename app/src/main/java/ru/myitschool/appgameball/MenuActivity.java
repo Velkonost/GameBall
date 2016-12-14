@@ -50,7 +50,7 @@ public class MenuActivity extends Activity {
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 
                         intent.putExtra(ON_TIME, Boolean.parseBoolean(loadText(MenuActivity.this, ON_TIME)));
-                        intent.putExtra(DIFFICULTY, Integer.parseInt(loadText(MenuActivity.this, DIFFICULTY)));
+                        intent.putExtra(DIFFICULTY, (loadText(MenuActivity.this, DIFFICULTY)));
                         changeActivityCompat(MenuActivity.this,
                                 new Intent(MenuActivity.this, MainActivity.class));
 

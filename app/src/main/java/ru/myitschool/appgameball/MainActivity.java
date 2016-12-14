@@ -43,6 +43,7 @@ public class MainActivity extends AppCompatActivity {
     private int score;
 
     private int prevCountTouch;
+    private static boolean isAbleToCont;
 
     private TextView textTimer, textScore;
     private int screenH, screenW;
@@ -52,7 +53,6 @@ public class MainActivity extends AppCompatActivity {
     private int streamSoundWin = 0;
     private int streamSoundLose = 0;
     private boolean on_time;
-    private boolean load = false;
 
     @SuppressLint("SetTextI18n")
     @Override
@@ -66,7 +66,9 @@ public class MainActivity extends AppCompatActivity {
 
         long timeToEnd;
         int amount;
-        if (loadText(this, LOAD).equals(YES)) {
+        boolean load;
+
+        if (loadText(this, LOAD).equals(YES) && MainActivity.isAbleToCont()) {
             timeToEnd = Long.parseLong(loadText(this, TIME)) * 1000 + 1000;
             amount = Integer.parseInt(loadText(this, AMOUNT));
             score = Integer.parseInt(loadText(MainActivity.this, SCORE));
@@ -83,6 +85,7 @@ public class MainActivity extends AppCompatActivity {
             timeToEnd = 20000;
             amount = 5;
             score = 0;
+            load = false;
         }
         setCountBall(amount);
 
@@ -176,6 +179,7 @@ public class MainActivity extends AppCompatActivity {
     public void winGame() {
         if (getCountBall() == 0) {
             soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
+            setIsAbleToCont(false);
             finish();
         }
     }
@@ -195,6 +199,9 @@ public class MainActivity extends AppCompatActivity {
             saveText(this, i + "x", String.valueOf(balls.get(i).getX()));
             saveText(this, i + "y", String.valueOf(balls.get(i).getY()));
         }
+
+        setIsAbleToCont(true);
+
         finish();
     }
 
@@ -214,8 +221,10 @@ public class MainActivity extends AppCompatActivity {
         public void onFinish() {
             if (countBall == 0) {
                 soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
+                setIsAbleToCont(false);
             } else {
                 soundPool.play(streamSoundLose, 1, 1, 1, 0, 1);
+                setIsAbleToCont(false);
             }
             finish();
         }
@@ -259,5 +268,13 @@ public class MainActivity extends AppCompatActivity {
 
     public static void setCountBall(int countBall) {
         MainActivity.countBall = countBall;
+    }
+
+    public static boolean isAbleToCont() {
+        return isAbleToCont;
+    }
+
+    public static void setIsAbleToCont(boolean isAbleToCont) {
+        MainActivity.isAbleToCont = isAbleToCont;
     }
 }
