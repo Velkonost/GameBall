@@ -14,9 +14,6 @@ import static ru.myitschool.appgameball.Constants.ON_TIME;
 
 public class ChooseDifficultyActivity extends AppCompatActivity {
 
-    private final int LAYOUT = R.layout.activity_choose_difficulty;
-
-    private Button mButton;
     private SwitchCompat mSwitchCompat;
     private SeekBar mSeekBar;
 
@@ -24,13 +21,14 @@ public class ChooseDifficultyActivity extends AppCompatActivity {
     protected void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
+        int LAYOUT = R.layout.activity_choose_difficulty;
         setContentView(LAYOUT);
 
-        mButton = (Button) findViewById(R.id.startGame);
+        Button button = (Button) findViewById(R.id.startGame);
         mSwitchCompat = (SwitchCompat) findViewById(R.id.switch_compat);
         mSeekBar = (SeekBar) findViewById(R.id.seekBar);
 
-        mButton.setOnClickListener(new View.OnClickListener() {
+        button.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
                 Intent intent = new Intent(ChooseDifficultyActivity.this, MainActivity.class);

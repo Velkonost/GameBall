@@ -9,6 +9,10 @@ class Constants {
     static final String SCORE = "score";
     static final String TIME = "time";
     static final String AMOUNT = "amount";
+    static final String YES = "yes";
+    static final String X = "x";
+    static final String Y = "y";
+    static final String ZERO = "0";
 
 
 }

@@ -1,5 +1,6 @@
 package ru.myitschool.appgameball;
 
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.content.Intent;
 import android.media.AudioAttributes;
@@ -23,6 +24,10 @@ import static ru.myitschool.appgameball.Constants.LOAD;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
 import static ru.myitschool.appgameball.Constants.SCORE;
 import static ru.myitschool.appgameball.Constants.TIME;
+import static ru.myitschool.appgameball.Constants.X;
+import static ru.myitschool.appgameball.Constants.Y;
+import static ru.myitschool.appgameball.Constants.YES;
+import static ru.myitschool.appgameball.Constants.ZERO;
 import static ru.myitschool.appgameball.PhoneDataStorage.deleteText;
 import static ru.myitschool.appgameball.PhoneDataStorage.loadText;
 import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
@@ -30,14 +35,12 @@ import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 public class MainActivity extends AppCompatActivity {
 
     private static List<Ball> balls = null;
-    private static int countBall = 5;
+    private static int countBall;
 
     private int difficulty;
 
-    private long timeToEnd;
     private long timeLess;
     private int score;
-    private int amount;
 
     private int prevCountTouch;
 
@@ -51,6 +54,7 @@ public class MainActivity extends AppCompatActivity {
     private boolean on_time;
     private boolean load = false;
 
+    @SuppressLint("SetTextI18n")
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -60,13 +64,21 @@ public class MainActivity extends AppCompatActivity {
         on_time = intent.getBooleanExtra(ON_TIME, true);
         difficulty = intent.getIntExtra(DIFFICULTY, 50);
 
-        if (loadText(this, LOAD).equals("yes")) {
+        long timeToEnd;
+        int amount;
+        if (loadText(this, LOAD).equals(YES)) {
             timeToEnd = Long.parseLong(loadText(this, TIME)) * 1000 + 1000;
             amount = Integer.parseInt(loadText(this, AMOUNT));
             score = Integer.parseInt(loadText(MainActivity.this, SCORE));
             difficulty = Integer.parseInt(loadText(this, DIFFICULTY));
             load = true;
+
             deleteText(this, LOAD);
+            deleteText(this, SCORE);
+            deleteText(this, DIFFICULTY);
+            deleteText(this, ON_TIME);
+            deleteText(this, AMOUNT);
+            deleteText(this, TIME);
         } else {
             timeToEnd = 20000;
             amount = 5;
@@ -76,7 +88,6 @@ public class MainActivity extends AppCompatActivity {
 
         textTimer = (TextView) findViewById(R.id.text_timer);
         textScore = (TextView) findViewById(R.id.text_score);
-
 
         if (!on_time) {
             timeToEnd = 1000000000;
@@ -97,14 +108,14 @@ public class MainActivity extends AppCompatActivity {
             for (int i = 0; i < amount; i++) {
                 Ball ball = new Ball(MainActivity.this, screenH, screenW, (100 - difficulty) * 2 + 30,
                         5, 10);
-                ball.setX(Integer.parseInt(loadText(this, i + "x")));
-                ball.setY(Integer.parseInt(loadText(this, i + "y")));
+                ball.setX(Integer.parseInt(loadText(this, i + X)));
+                ball.setY(Integer.parseInt(loadText(this, i + Y)));
 
                 balls.add(ball);
             }
         }
 
-        textScore.setText("Очки: " + 0);
+        textScore.setText(getResources().getString(R.string.score) + ZERO);
 
         timer = new MyTimer(timeToEnd, 10);
         timer.start();
@@ -114,11 +125,11 @@ public class MainActivity extends AppCompatActivity {
                 //Здесь обновляем текст счетчика обратного отсчета с каждой секундой
                 public void onTick(long millisUntilFinished) {
                     timeLess = millisUntilFinished / 1000;
-                    textTimer.setText("Осталось: " + timeLess);
+                    textTimer.setText(getResources().getString(R.string.time_left) + timeLess);
                 }
 
                 public void onFinish() {
-                    textTimer.setText("Не успел!");
+                    textTimer.setText(getResources().getString(R.string.lose));
                 }
             }
                     .start();
@@ -210,13 +221,14 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
+    @SuppressLint("SetTextI18n")
     public void setScore() {
         if (countTouch > prevCountTouch) {
             if (on_time) score += timeLess;
             else score += 1.5 * countTouch;
         }
         prevCountTouch = countTouch;
-        textScore.setText("Очки: " + score);
+        textScore.setText(getResources().getString(R.string.score) + score);
     }
 
     private void moveBalls() {

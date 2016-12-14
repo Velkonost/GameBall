@@ -11,6 +11,7 @@ import android.widget.ListView;
 import static ru.myitschool.appgameball.Constants.DIFFICULTY;
 import static ru.myitschool.appgameball.Constants.LOAD;
 import static ru.myitschool.appgameball.Constants.ON_TIME;
+import static ru.myitschool.appgameball.Constants.YES;
 import static ru.myitschool.appgameball.Manager.changeActivityCompat;
 import static ru.myitschool.appgameball.PhoneDataStorage.loadText;
 import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
@@ -44,7 +45,7 @@ public class MenuActivity extends Activity {
                                 new Intent(MenuActivity.this, ChooseDifficultyActivity.class));
                         break;
                     case 1:
-                        saveText(MenuActivity.this, LOAD, "yes");
+                        saveText(MenuActivity.this, LOAD, YES);
                         Intent intent = new Intent(MenuActivity.this, MainActivity.class);
                         intent.addFlags(Intent.FLAG_ACTIVITY_NEW_TASK);
 

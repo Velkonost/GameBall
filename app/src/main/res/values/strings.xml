@@ -7,5 +7,8 @@
 
     <string name="title_message1">Задание</string>
     <string name="text_massage1">Хей игрок, тебе нужно за 4 сек. набить 5 мячей! Ну что, рискнешь?</string>
+    <string name="score">Очки: </string>
+    <string name="time_left">Осталось: </string>
+    <string name="lose">Не успел!</string>
 
 </resources>

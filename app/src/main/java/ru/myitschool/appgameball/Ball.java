@@ -70,36 +70,19 @@ class Ball {
             speedY = - speedY;
     }
 
-    static boolean touch(List<Ball> balls, float x, float y,
-                         SoundPool soundPool, int streamSound){
-        for (int i = 0; i < balls.size(); i++){
-            if ((balls.get(i).x <= x) && (balls.get(i).x + size >= x) &&
-                    (balls.get(i).y <= y) && (balls.get(i).y + size >= y)){
-//                balls.get(i).image.setImageAlpha(0);
-//                soundPool.play(streamSound, 1, 1, 1, 0, 1);
-                countTouch++;
-
-//                balls.remove(i);
-                return true;
-            } else
-                return false;
-        }
-        return false;
-    }
-
-    public int getX() {
+    int getX() {
         return x;
     }
 
-    public void setX(int x) {
+    void setX(int x) {
         this.x = x;
     }
 
-    public int getY() {
+    int getY() {
         return y;
     }
 
-    public void setY(int y) {
+    void setY(int y) {
         this.y = y;
     }
 

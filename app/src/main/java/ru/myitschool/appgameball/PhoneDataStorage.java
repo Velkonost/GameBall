@@ -6,11 +6,7 @@ import android.content.SharedPreferences;
 import static android.content.Context.MODE_PRIVATE;
 import static ru.myitschool.appgameball.Constants.APP_PREFERENCES;
 
-/**
- * @author Velkonost
- * Класс, служащий для взаимодействия приложения с файлом для оперирования данными.
- */
-public class PhoneDataStorage {
+class PhoneDataStorage {
 
     private static SharedPreferences mSharedPreferences;
 
@@ -24,7 +20,7 @@ public class PhoneDataStorage {
      *  @param key Ключ-идентификатор по которому сохраняется значение.
      *  @param value Значение, сохраняемое по ключу.
      */
-    public static void saveText(Context context, String key, String value) {
+    static void saveText(Context context, String key, String value) {
         mSharedPreferences = context.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         /** Открытие файла для изменения */
@@ -42,7 +38,7 @@ public class PhoneDataStorage {
      * @param key Ключ-идентификатор, по которому ищется значение.
      * @return Найденное значение по переданному ключу.
      */
-    public static String loadText(Context context, String key) {
+    static String loadText(Context context, String key) {
         mSharedPreferences = context.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
         return mSharedPreferences.getString(key, "");
     }
@@ -52,7 +48,7 @@ public class PhoneDataStorage {
      * @param context Передается Activity класса, из которого вызывается эта функция.
      * @param key Ключ-идентификатор, по которому удаляется значение.
      */
-    public static void deleteText(Context context, String key) {
+    static void deleteText(Context context, String key) {
         mSharedPreferences = context.getSharedPreferences(APP_PREFERENCES, MODE_PRIVATE);
 
         /** Открытие файла для изменения */
