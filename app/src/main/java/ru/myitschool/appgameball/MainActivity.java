@@ -10,7 +10,6 @@ import android.os.Bundle;
 import android.os.CountDownTimer;
 import android.support.v7.app.AppCompatActivity;
 import android.util.DisplayMetrics;
-import android.view.MotionEvent;
 import android.view.View;
 import android.widget.TextView;
 
@@ -30,8 +29,8 @@ import static ru.myitschool.appgameball.PhoneDataStorage.saveText;
 
 public class MainActivity extends AppCompatActivity {
 
-    private List<Ball> balls = null;
-    private int countBall = 5;
+    private static List<Ball> balls = null;
+    private static int countBall = 5;
 
     private int difficulty;
 
@@ -45,11 +44,12 @@ public class MainActivity extends AppCompatActivity {
     private TextView textTimer, textScore;
     private int screenH, screenW;
     private MyTimer timer = null;
-    private SoundPool soundPool = null;
-    private int streamSoundTuck = 0;
+    private static SoundPool soundPool = null;
+    private static int streamSoundTuck = 0;
     private int streamSoundWin = 0;
     private int streamSoundLose = 0;
     private boolean on_time;
+    private boolean load = false;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -65,12 +65,14 @@ public class MainActivity extends AppCompatActivity {
             amount = Integer.parseInt(loadText(this, AMOUNT));
             score = Integer.parseInt(loadText(MainActivity.this, SCORE));
             difficulty = Integer.parseInt(loadText(this, DIFFICULTY));
+            load = true;
             deleteText(this, LOAD);
         } else {
             timeToEnd = 20000;
-            amount = 0;
+            amount = 5;
             score = 0;
         }
+        setCountBall(amount);
 
         textTimer = (TextView) findViewById(R.id.text_timer);
         textScore = (TextView) findViewById(R.id.text_score);
@@ -89,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
         prevCountTouch = countTouch;
         createSoundPool();
         balls = new ArrayList<>();
-        if (amount == 0) {
+        if (!load) {
             createBalls();
         } else {
             for (int i = 0; i < amount; i++) {
@@ -160,25 +162,29 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    @Override
-    public boolean onTouchEvent(MotionEvent event) {
-        float x, y;
-        x = event.getX();
-        y = event.getY();
-        switch (event.getAction()){
-            case MotionEvent.ACTION_DOWN:
-                boolean flag = Ball.touch(balls, x, y, soundPool, streamSoundTuck);
-                if (flag) {
-                    countBall --;
-                    if (countBall == 0) {
-                        soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
-                        finish();
-                    }
-                }
-                break;
+    public void winGame() {
+        if (getCountBall() == 0) {
+            soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
+            finish();
         }
-        return true;
     }
+
+//    @Override
+//    public boolean onTouchEvent(MotionEvent event) {
+//        float x, y;
+//        x = event.getX();
+//        y = event.getY();
+//        switch (event.getAction()){
+//            case MotionEvent.ACTION_DOWN:
+//                Log.i("CHE", String.valueOf(getCountBall()));
+//                    if (getCountBall() == 0) {
+//                        soundPool.play(streamSoundWin, 1, 1, 1, 0, 1);
+//                        finish();
+//                    }
+//                break;
+//        }
+//        return true;
+//    }
 
     @Override
     protected void onStop() {
@@ -234,5 +240,29 @@ public class MainActivity extends AppCompatActivity {
        for (Ball ball : balls){
            ball.move();
        }
+    }
+
+    public static List<Ball> getBalls() {
+        return balls;
+    }
+
+    public static void setBalls(List<Ball> balls) {
+        MainActivity.balls = balls;
+    }
+
+    public static SoundPool getSoundPool() {
+        return soundPool;
+    }
+
+    public static int getStreamSoundTuck() {
+        return streamSoundTuck;
+    }
+
+    public static int getCountBall() {
+        return countBall;
+    }
+
+    public static void setCountBall(int countBall) {
+        MainActivity.countBall = countBall;
     }
 }

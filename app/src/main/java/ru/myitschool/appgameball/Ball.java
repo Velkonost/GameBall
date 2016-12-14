@@ -1,7 +1,6 @@
 package ru.myitschool.appgameball;
 
 import android.media.SoundPool;
-import android.util.Log;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.RelativeLayout;
@@ -13,15 +12,16 @@ class Ball {
     private int x, y, speedX, speedY;
     private int screenH, screenW;
     private ImageView image;
+    private boolean live;
 
     private static int size;
     static int countTouch = 0;
 
     Ball(MainActivity mainActivity, int screenH, int screenW,
-         int size, int beginSpeed, int endSpeed){
+         final int size, int beginSpeed, int endSpeed){
 
         image = new ImageView(mainActivity);
-
+        live = true;
         this.screenH = screenH;
         this.screenW = screenW;
         Ball.size = size;
@@ -39,7 +39,19 @@ class Ball {
         image.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Log.i("CHE", "CHE");
+                if (live) {
+                    List<Ball> balls = MainActivity.getBalls();
+                    SoundPool soundPool = MainActivity.getSoundPool();
+                    int streamSound = MainActivity.getStreamSoundTuck();
+
+                    balls.remove(Ball.this);
+                    image.setImageAlpha(0);
+                    soundPool.play(streamSound, 1, 1, 1, 0, 1);
+                    countTouch++;
+                    MainActivity.setBalls(balls);
+                    MainActivity.setCountBall(MainActivity.getCountBall() - 1);
+                    live = false;
+                }
             }
         });
     }
@@ -62,11 +74,11 @@ class Ball {
         for (int i = 0; i < balls.size(); i++){
             if ((balls.get(i).x <= x) && (balls.get(i).x + size >= x) &&
                     (balls.get(i).y <= y) && (balls.get(i).y + size >= y)){
-                balls.get(i).image.setImageAlpha(0);
-                soundPool.play(streamSound, 1, 1, 1, 0, 1);
+//                balls.get(i).image.setImageAlpha(0);
+//                soundPool.play(streamSound, 1, 1, 1, 0, 1);
                 countTouch++;
 
-                balls.remove(i);
+//                balls.remove(i);
                 return true;
             } else
                 return false;
